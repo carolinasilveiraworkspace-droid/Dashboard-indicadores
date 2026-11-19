@@ -214,12 +214,12 @@ function renderCuid(){
  const g=geo(),t=tipos[S.tipo],u=S.meas==='mil'?'mil':'%',r=cg(g,t,S.yi,S.meas),col='#0369a1';
  const vf=x=>cg(x,t,S.yi,S.meas)?.[S.faixa];
  let h=`<div class="ctrl">${sel('tipo','Tipo de cuidado',tipos.map((x,i)=>[i,sh(x)]),S.tipo)}${sel('meas','Medida',[['pct','% entre quem cuidou'],['mil','Milhões de pessoas']],S.meas)}${sel('faixa','Idade de quem recebe (mapa)',FX.map((x,i)=>[i,'Morador de '+x]),S.faixa)}</div>`;
- h+=`<div class="kpis">${FX.map((x,i)=>`<div class="kpi" style="border-left-color:${['#e48ab5','#b48bd8','#7b8fe0','#d8663f'][i]}"><small>${S.meas==='pct'?'% entre quem cuidou de morador de ':'Pessoas que cuidaram de morador de '}${x} · ${g} · ${Y[S.yi]}</small><b>${fm(r?.[i],u)}</b></div>`).join('')}</div>`;
+ h+=`<div class="kpis">${FX.map((x,i)=>`<div class="kpi" style="border-left-color:${['#e48ab5','#b48bd8','#7b8fe0','#4f5fc4'][i]}"><small>${S.meas==='pct'?'% entre quem cuidou de morador de ':'Pessoas que cuidaram de morador de '}${x} · ${g} · ${Y[S.yi]}</small><b>${fm(r?.[i],u)}</b></div>`).join('')}</div>`;
  h+=`<div class="g2">${card(`Mapa do Brasil · ${sh(t)}`,`Morador de ${FX[S.faixa]} · ${Y[S.yi]} · clique para selecionar um estado`,'<div id="map"></div>')}${card('Ranking por estado','Respeita o filtro de região',`<div class="ch tall"><canvas id="c1"></canvas></div>`)}</div>`;
  h+=`<div class="g2">${card('Evolução no tempo',`${g} · ${sh(t)}`,'<div class="ch"><canvas id="c2"></canvas></div>')}${card('Tipos de cuidado, por idade de quem recebe',`${g} · ${Y[S.yi]}`,'<div class="ch"><canvas id="c3"></canvas></div>')}</div>`;
  h+=`<div class="note">Esta tabela (7032) não é dividida por gênero: o filtro de gênero não se aplica aqui. Em região, o valor em milhões de pessoas é a soma dos estados e o percentual vem da tabela regional.</div>`;
  $('#app').innerHTML=h;drawMap($('#map'),vf,u,col);rank('c1',vf,u,col);
- const cs=['#e48ab5','#b48bd8','#7b8fe0','#d8663f'],tt={_u:u,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fm(c.raw,u)}`}}}};
+ const cs=['#e48ab5','#b48bd8','#7b8fe0','#4f5fc4'],tt={_u:u,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fm(c.raw,u)}`}}}};
  mk('c2','line',{labels:Y,datasets:FX.map((x,i)=>({label:x,data:Y.map((_,j)=>cg(g,t,j,S.meas)?.[i]),borderColor:cs[i],backgroundColor:cs[i],tension:.25}))},tt);
  mk('c3','bar',{labels:tipos.map(sh),datasets:FX.map((x,i)=>({label:x,data:tipos.map(z=>cg(g,z,S.yi,S.meas)?.[i]),backgroundColor:cs[i]}))},tt);
 }
@@ -229,7 +229,7 @@ function renderGeral(){
  const g=geo(),yi=S.yi,gt=(u,j=yi)=>D.cond.data[u]?.Total?.[j],r=gt(g),pr=D.pop.data[g],gap=u=>{const x=gt(u);return x?x[2]-x[1]:null};
  const k=(l,v,c)=>`<div class="kpi" style="${c?'border-left-color:'+c:''}"><small>${l}</small><b>${v}</b></div>`;
  const ban=r?`${g==='Brasil'?'No Brasil':'Em '+g}, em ${Y[yi]}, <b class="m">${fm(r[2],'%')}</b> das mulheres cuidaram de moradores, contra <b class="h">${fm(r[1],'%')}</b> dos homens: ${(r[2]-r[1]).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} pontos percentuais de diferença.`:NOREG;
- const u='%',pp='pp',cs=['#e48ab5','#b48bd8','#7b8fe0','#d8663f'];
+ const u='%',pp='pp',cs=['#e48ab5','#b48bd8','#7b8fe0','#4f5fc4'];
  const d=DS[S.mds],yd=d.fixed??yi,m=d.mets.some(x=>x[0]===S.metric)?S.metric:'abs',cat=d.cats.includes(S.cat)?S.cat:'Total';
  const vf2=x=>{const a=d.get(x,cat,yd);if(!a||a[0]==null)return null;return m==='share'?a[2]/a[0]*100:m==='gap'?a[2]-a[1]:a[S.sex]};
  const mu=m==='abs'?d.unit:m==='share'?'%':'pp',col=m==='abs'?(S.sex===0?COR_MAPA:SC[S.sex]):SC[2];
