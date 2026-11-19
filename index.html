@@ -141,7 +141,7 @@ const D={"pop":{"years":[2016,2017,2018,2019,2022],"data":{"Brasil":{"total":[16
 const $=s=>document.querySelector(s), Y=D.pop.years;
 const REGS={Norte:['Rondônia','Acre','Amazonas','Roraima','Pará','Amapá','Tocantins'],Nordeste:['Maranhão','Piauí','Ceará','Rio Grande do Norte','Paraíba','Pernambuco','Alagoas','Sergipe','Bahia'],Sudeste:['Minas Gerais','Espírito Santo','Rio de Janeiro','São Paulo'],Sul:['Paraná','Santa Catarina','Rio Grande do Sul'],'Centro-Oeste':['Mato Grosso do Sul','Mato Grosso','Goiás','Distrito Federal']};
 const UFS=Object.values(REGS).flat(), regOf=u=>Object.keys(REGS).find(r=>REGS[r].includes(u));
-const SC=['#7d8594','#4a90e2','#e8508a'], SL=['Total','Homens','Mulheres'];
+const SC=['#7d8594','#4a90e2','#e8508a'];const COR_MAPA='#7fc4a0', SL=['Total','Homens','Mulheres'];
 const FX=['0 a 5 anos','6 a 14 anos','15 a 59 anos','60 anos ou mais'];
 const S={tab:'geral',mds:'pop',yi:4,sex:0,region:'',uf:'',metric:'abs',cat:'Total',tipo:0,faixa:3,meas:'pct',ds:'pop',all:true};
 const geo=()=>S.uf||S.region||'Brasil';
