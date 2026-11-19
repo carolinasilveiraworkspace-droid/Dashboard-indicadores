@@ -188,7 +188,7 @@ const card=(t,s,b)=>`<div class="card"><h3>${t}</h3><div class="sub">${s}</div>$
 function renderDS(k){
  const d=DS[k],yi=d.fixed??S.yi,g=geo(),r=d.get(g,S.cat,yi),m=S.metric;
  const vf=u=>{const x=d.get(u,S.cat,yi);if(!x||x[0]==null)return null;return m==='share'?x[2]/x[0]*100:m==='gap'?x[2]-x[1]:x[S.sex]};
- const mu=m==='abs'?d.unit:m==='share'?'%':'pp',col=m==='abs'?SC[S.sex]:SC[2];
+ const mu=m==='abs'?d.unit:m==='share'?'%':'pp',col=m==='abs'?(S.sex===0?COR_MAPA:SC[S.sex]):SC[2];
  const k4=k==='pop'||k==='raca'?['Participação das mulheres',r&&r[2]/r[0]*100,'%']:['Diferença Mulheres − Homens',r&&r[2]-r[1],'pp'];
  let h=`<div class="ctrl">${d.cats.length>1?sel('cat',k==='raca'?'Cor ou raça':k==='instr'?'Nível de instrução':'Condição no domicílio',d.cats.map(c=>[c,c]),S.cat):''}${sel('metric','Métrica do mapa',d.mets,m)}</div>`;
  h+=`<div class="kpis">${[0,1,2].map(i=>`<div class="kpi" style="border-left:4px solid ${SC[i]}"><small>${SL[i]} · ${g} · ${k==='instr'?2022:Y[yi]}</small><b>${fm(r?.[i],d.unit)}</b></div>`).join('')}<div class="kpi"><small>${k4[0]}</small><b>${fm(k4[1],k4[2])}</b></div></div>`;
@@ -232,7 +232,7 @@ function renderGeral(){
  const u='%',pp='pp',cs=['#e0a03a','#2fa58b','#8466d9','#d8663f'];
  const d=DS[S.mds],yd=d.fixed??yi,m=d.mets.some(x=>x[0]===S.metric)?S.metric:'abs',cat=d.cats.includes(S.cat)?S.cat:'Total';
  const vf2=x=>{const a=d.get(x,cat,yd);if(!a||a[0]==null)return null;return m==='share'?a[2]/a[0]*100:m==='gap'?a[2]-a[1]:a[S.sex]};
- const mu=m==='abs'?d.unit:m==='share'?'%':'pp',col=m==='abs'?SC[S.sex]:SC[2];
+ const mu=m==='abs'?d.unit:m==='share'?'%':'pp',col=m==='abs'?(S.sex===0?COR_MAPA:SC[S.sex]):SC[2];
  let h=`<section class="hero"><p class="lede">${ban}</p>${r?`<div class="pair">${[[2,'Mulheres'],[1,'Homens']].map(([i,n])=>`<div class="row"><span>${n}</span><div class="track"><i style="width:${Math.min(100,r[i]/50*100)}%;background:${SC[i]}"></i></div><b>${fm(r[i],'%')}</b></div>`).join('')}</div>`:''}</section><div class="kpis">${k(`Pessoas de 14+ · ${g} · ${Y[yi]}`,fm(pr?.total[yi],'mil'))}${k('Taxa de cuidados · Mulheres',fm(r?.[2],u),SC[2])}${k('Taxa de cuidados · Homens',fm(r?.[1],u),SC[1])}${k('Diferença M − H',fm(r&&r[2]-r[1],pp))}</div><div class="ctrl">${sel('mds','Indicador do mapa',Object.keys(DS).map(x=>[x,DS[x].t]),S.mds)}${d.cats.length>1?sel('cat','Categoria',d.cats.map(c=>[c,c]),cat):''}${sel('metric','Métrica do mapa',d.mets,m)}</div><div class="g2">${card(`Mapa do Brasil · ${cat==='Total'?d.t:cat}`,`${d.mets.find(x=>x[0]===m)[1]} · ${Y[yd]}${m==='abs'?' · '+SL[S.sex]:''} · clique para selecionar um estado`,'<div id="mapA"></div>')}${card('Ranking por estado','Respeita o filtro de região e de gênero','<div class="ch tall"><canvas id="cA"></canvas></div>')}</div>`;
  h+=`<div class="g2">${card('Mulheres na população × entre quem cuida','% de mulheres na população de 14+ (tabela 6998) e entre as pessoas de 14+ que cuidaram de moradores ou de parentes não moradores (tabela 7020), por ano','<div class="ch"><canvas id="g1"></canvas></div>')}${card('Taxa de cuidados de moradores','% das mulheres e dos homens de 14+ que realizaram cuidados de moradores do domicílio','<div class="ch"><canvas id="g2"></canvas></div>')}</div>`;
  h+=`<div class="g2">${card('Taxa por condição no domicílio','% no ano selecionado','<div class="ch"><canvas id="g3"></canvas></div>')}${card('Taxa por nível de instrução','% em 2022 (único ano disponível)','<div class="ch"><canvas id="g4"></canvas></div>')}</div>`;
